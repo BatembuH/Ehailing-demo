@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>eHail | Ride Now</title>
+<style>
+  body { margin:0; font-family:'Segoe UI', sans-serif; background: linear-gradient(to right,#f7f8fa,#d6e0f0); color:#333; }
+  header { background:#2c3e50; color:white; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+  header h1 { margin:0; }
+  main { padding:2rem; display:grid; gap:2rem; }
+  .card { background:white; padding:2rem; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); }
+  .form-group { margin-bottom:1rem; }
+  label { display:block; margin-bottom:0.5rem; }
+  input, select { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; }
+  button { background:#3498db; color:white; border:none; padding:.75rem 1.5rem; border-radius:8px; cursor:pointer; }
+  .countdown { font-weight:bold; font-size:1.2rem; color:#e74c3c; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>eHail</h1>
+    <div class="countdown" id="timer">Site expires in: 04:00:00</div>
+  </header>
+  <main>
+    <div class="card">
+      <h2>Request a Ride</h2>
+      <form>
+        <div class="form-group"><label for="pickup">Pickup Location</label><input type="text" id="pickup" placeholder="e.g., 123 Main St" /></div>
+        <div class="form-group"><label for="dropoff">Dropoff Location</label><input type="text" id="dropoff" placeholder="e.g., 456 Elm St" /></div>
+        <div class="form-group"><label for="type">Ride Type</label><select id="type"><option>Standard</option><option>Luxury</option><option>Bike</option></select></div>
+        <button type="submit">Book Now</button>
+      </form>
+    </div>
+    <div class="card"><h2>Driver Portal (Coming Soon)</h2><p>Manage ride requests, view earnings, and more.</p></div>
+  </main>
+  <script>
+    let countdownSeconds = 4 * 60 * 60;
+    const timerDisplay = document.getElementById('timer');
+    const formatTime = s => {
+      const hrs = String(Math.floor(s/3600)).padStart(2,'0');
+      const mins = String(Math.floor((s%3600)/60)).padStart(2,'0');
+      const secs = String(s%60).padStart(2,'0');
+      return `${hrs}:${mins}:${secs}`;
+    };
+    const updateCountdown = () => {
+      timerDisplay.textContent = `Site expires in: ${formatTime(countdownSeconds)}`;
+      if (countdownSeconds <= 0) {
+        document.body.innerHTML = '<main style="padding:3rem;text-align:center;"><h1>This demo site has expired.</h1><p>Please contact the developer to reactivate.</p></main>';
+        clearInterval(countdownInterval);
+      }
+      countdownSeconds--;
+    };
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
